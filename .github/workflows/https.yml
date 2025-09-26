@@ -1,0 +1,24 @@
+name: Change HTTP to HTTPS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      
+      - name: Replace nginx.conf
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cat ~/app/nginx-https.txt | sudo tee ~/app/frontend/nginx.conf > /dev/null
+            cd app
+            docker compose down
+            docker compose up -d --build

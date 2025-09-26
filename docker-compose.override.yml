@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    image: username/demo:api-latest
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: username/demo:frontend-latest
+
+  console:
+    build:
+      context: ./console
+      dockerfile: Dockerfile
+    image: username/demo:console-latest
